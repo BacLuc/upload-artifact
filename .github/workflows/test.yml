@@ -51,9 +51,11 @@ jobs:
         mkdir -p path/to/dir-1
         mkdir -p path/to/dir-2
         mkdir -p path/to/dir-3    
+        mkdir -p path/to/dir-4
         echo "Lorem ipsum dolor sit amet" > path/to/dir-1/file1.txt
         echo "Hello world from file #2" > path/to/dir-2/file2.txt
         echo "This is a going to be a test for a large enough file that should get compressed with GZip. The @actions/artifact package uses GZip to upload files. This text should have a compression ratio greater than 100% so it should get uploaded using GZip" > path/to/dir-3/gzip.txt
+        echo "Hello world from file #4" > path/to/dir-4/file4
 
     # Upload a single file artifact
     - name: 'Upload artifact #1'
@@ -84,6 +86,14 @@ jobs:
           path/to/dir-1/*
           path/to/dir-[23]/*
           !path/to/dir-3/*.txt
+
+      # Upload a directory that contains a file without file ending
+    - name: 'Upload artifact #5'
+      uses: ./
+      with:
+        name: 'Artifact-file-without-file-ending'
+        path: |
+          path/*/dir-4/
 
     # Verify artifacts. Switch to download-artifact@v2 once it's out of preview
 
