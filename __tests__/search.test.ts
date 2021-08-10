@@ -16,6 +16,7 @@ const searchItem2Path = path.join(root, 'folder-d', 'search-item2.txt')
 const searchItem3Path = path.join(root, 'folder-d', 'search-item3.txt')
 const searchItem4Path = path.join(root, 'folder-d', 'search-item4.txt')
 const searchItem5Path = path.join(root, 'search-item5.txt')
+const searchItem6Path = path.join(root, 'search-item5')
 const extraSearchItem1Path = path.join(
   root,
   'folder-a',
@@ -351,5 +352,15 @@ describe('Search', () => {
       true
     )
     expect(searchResult.filesToUpload.includes(lonelyFilePath)).toEqual(true)
+  })
+
+  it('Includes file without file ending', async () => {
+    await fs.writeFile(searchItem6Path, 'search item6 file')
+
+    const searchResult = await findFilesToUpload(root)
+
+    expect(searchResult.rootDirectory).toEqual(path.join(root))
+    expect(searchResult.filesToUpload.length).toEqual(14)
+    expect(searchResult.filesToUpload.includes(searchItem6Path)).toEqual(true)
   })
 })
